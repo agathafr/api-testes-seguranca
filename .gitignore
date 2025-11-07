@@ -1,0 +1,8 @@
+*.db
+respostas/
+relatorio/evidencias/
+*.pyc
+__pycache__/
+.env
+*.zip
+*.md
