@@ -1,23 +1,20 @@
-# app/fix_senhas_plain.py
+# scripts/fix_senhas_plain.py
+import sys
 from pathlib import Path
-import sys, csv
-sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-import routes
+# Garante que o Python enxergue o módulo "app"
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "app"))
+
 from models import Pessoa
-from database import db
-
-csv_path = Path(__file__).resolve().parent / "listagem.csv"
+import routes
 
 with routes.app.app_context():
-    atualizados = 0
-    with csv_path.open(encoding="utf-8") as f:
-        reader = csv.DictReader(f, delimiter=";")
-        for row in reader:
-            p = Pessoa.query.filter_by(login=row["Login"]).first()
-            if p and p.senha != row["Senha"]:
-                p.senha = row["Senha"]           # << sem hash, texto puro
-                db.session.add(p)
-                atualizados += 1
-    db.session.commit()
-    print(f"Senhas ajustadas para texto puro. Registros atualizados: {atualizados}")
+    pessoas = Pessoa.query.all()
+    for p in pessoas:
+        if len(p.senha) > 10:  # provavel hash
+            # simplifica a senha para os 6 primeiros dígitos do login (antes do @)
+            p.senha = p.login.split("@")[0][-6:]
+            print(f"Ajustando senha para {p.login} -> {p.senha}")
+    routes.db.session.commit()
+
+print("Senhas normalizadas.")

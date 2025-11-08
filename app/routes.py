@@ -36,10 +36,10 @@ def login():
     senha = data.get('senha', '')
     
     query = f"SELECT * FROM pessoa WHERE Login = '{login}' AND Senha = '{senha}'"
-    print("DEBUG login(): login/senha ->", login, senha, flush=True)
-    print("DEBUG login(): query ->", query, flush=True)
-    print("DEBUG path: cwd =", os.getcwd(), flush=True)
-    print("DEBUG db url:", db.engine.url, flush=True)
+    #print("DEBUG login(): login/senha ->", login, senha, flush=True)
+    #print("DEBUG login(): query ->", query, flush=True)
+    #print("DEBUG path: cwd =", os.getcwd(), flush=True)
+    #print("DEBUG db url:", db.engine.url, flush=True)
     connection = db.engine.raw_connection()
     cursor = connection.cursor()
     cursor.execute(query)
