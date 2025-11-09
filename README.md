@@ -44,10 +44,9 @@ testes/
      └── (demais testes futuros)
 
 respostas/
- ├── login/
  ├── sql_injection/
  ├── bola/
- └── cookies/
+ └── (demais vulnerabilidades)
 
 relatorio/
  └── evidencias/
